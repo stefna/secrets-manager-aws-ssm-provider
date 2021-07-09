@@ -66,8 +66,13 @@ final class AwsSsmProvider implements ProviderInterface
 				$count++;
 				$paramKey = (string)$parameter->getName();
 				$subKey = substr($paramKey, $keyLength + 1);
-				$keyParts = explode('/', $subKey);
 				$value = (string)$parameter->getValue();
+				if ($subKey) {
+					$keyParts = explode('/', $subKey);
+				}
+				else {
+					$keyParts = [$paramKey];
+				}
 				$currentValue = $this->buildNestedArray($currentValue, $keyParts, $value);
 
 				$secret = new Secret(
