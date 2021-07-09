@@ -1,0 +1,23 @@
+{
+	"name": "stefna/secrets-manager-aws-ssm-provider",
+	"description": "Aws ssm provider for secrets manager",
+	"type": "library",
+	"license": "MIT",
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"authors": [
+		{
+			"name": "Andreas Sundqvist",
+			"email": "andreas@stefna.is"
+		}
+	],
+	"require": {
+		"php": "^7.1 || ^8.0",
+		"async-aws/ssm": "^1.2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Stefna\\SecretsManager\\Provider\\AwsSsm\\": "src/"
+		}
+	}
+}
