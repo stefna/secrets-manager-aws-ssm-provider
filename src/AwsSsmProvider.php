@@ -2,8 +2,8 @@
 
 namespace Stefna\SecretsManager\Provider\AwsSsm;
 
-use AsyncAws\SecretsManager\Exception\ResourceNotFoundException;
 use AsyncAws\Ssm\Enum\ParameterType;
+use AsyncAws\Ssm\Exception\InvalidKeyIdException;
 use AsyncAws\Ssm\SsmClient;
 use AsyncAws\Ssm\ValueObject\Parameter;
 use Stefna\SecretsManager\Exceptions\SecretNotFoundException;
@@ -12,15 +12,12 @@ use Stefna\SecretsManager\Values\Secret;
 
 final class AwsSsmProvider implements ProviderInterface
 {
-	/** @var SsmClient */
-	private $client;
 	/** @var array<string, Secret> */
-	private $data = [];
+	private array $data = [];
 
-	public function __construct(SsmClient $client)
-	{
-		$this->client = $client;
-	}
+	public function __construct(
+		private readonly SsmClient $client,
+	) {}
 
 	public function putSecret(Secret $secret, ?array $options = []): Secret
 	{
@@ -86,7 +83,7 @@ final class AwsSsmProvider implements ProviderInterface
 			}
 			return $this->data[$key] = new Secret($key, $currentValue);
 		}
-		catch (ResourceNotFoundException $e) {
+		catch (InvalidKeyIdException) {
 			throw SecretNotFoundException::withKey($key);
 		}
 	}
@@ -94,11 +91,10 @@ final class AwsSsmProvider implements ProviderInterface
 
 	/**
 	 * @param array<string, mixed> $data
-	 * @param string[] $keys
-	 * @param mixed $value
+	 * @param list<string> $keys
 	 * @return array<string, mixed>
 	 */
-	private function buildNestedArray(array $data, array $keys, $value): array
+	private function buildNestedArray(array $data, array $keys, mixed $value): array
 	{
 		$rootPtr = &$data;
 		$lastKey = array_pop($keys);
