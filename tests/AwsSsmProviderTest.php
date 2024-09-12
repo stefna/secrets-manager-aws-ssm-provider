@@ -29,7 +29,7 @@ final class AwsSsmProviderTest extends TestCase
 					'Name' => $key,
 					'Type' => 'String',
 					'Value' => $value,
-					'Version' => '1',
+					'Version' => 1,
 				]),
 			],
 		]);
@@ -60,25 +60,25 @@ final class AwsSsmProviderTest extends TestCase
 					'Name' => $key . '/name',
 					'Type' => 'String',
 					'Value' => 'dbName',
-					'Version' => '1',
+					'Version' => 1,
 				]),
 				new Parameter([
 					'Name' => $key . '/extra/test1',
 					'Type' => 'String',
 					'Value' => 'test1',
-					'Version' => '1',
+					'Version' => 1,
 				]),
 				new Parameter([
 					'Name' => $key . '/extra/test2',
 					'Type' => 'String',
 					'Value' => 'test2',
-					'Version' => '1',
+					'Version' => 1,
 				]),
 				new Parameter([
 					'Name' => $key . '/user',
 					'Type' => 'String',
 					'Value' => 'dbUser',
-					'Version' => '1',
+					'Version' => 1,
 				]),
 			],
 		]);
